@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RU UNIVERSE | Glassy Login</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f0c29; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        .liquid-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            filter: blur(20px); 
+        }
+
+        .blob {
+            position: absolute;
+            animation: morph 10s ease-in-out infinite both alternate;
+        }
+
+        .blob:nth-child(1) {
+            top: 15%; left: 25%;
+            width: 350px; height: 350px;
+            background: linear-gradient(135deg, #ff007f, #ff0055);
+            animation-delay: 0s;
+        }
+
+        .blob:nth-child(2) {
+            bottom: 15%; right: 25%;
+            width: 400px; height: 400px;
+            background: linear-gradient(135deg, #7000ff, #00d2ff);
+            animation-delay: 2s;
+        }
+
+        .blob:nth-child(3) {
+            bottom: 40%; left: 10%;
+            width: 250px; height: 250px;
+            background: linear-gradient(135deg, #ffaa00, #ff007f);
+            animation-delay: 4s;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; transform: translateY(0) rotate(0deg) scale(1); }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translateY(-50px) rotate(120deg) scale(1.1); }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: translateY(20px) rotate(240deg) scale(0.9); }
+            100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; transform: translateY(0) rotate(360deg) scale(1); }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10; 
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container svg {
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+        }
+
+        .logo-container h1 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .logo-container p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: 300;
+        }
+
+        #formTitle {
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(255,255,255,0.2);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .input-group input:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1), inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            color: #fff;
+            background: rgba(20, 15, 40, 0.9); 
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 12px;
+            position: absolute;
+            bottom: -20px;
+            left: 5px;
+            display: none;
+        }
+
+        .input-group.error input { border-color: #ff4d4d; }
+        .input-group.error .error-msg { display: block; }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+
+        .remember-me {
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #7000ff;
+        }
+
+        .forgot-pwd {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+
+        .forgot-pwd:hover { color: #00d2ff; }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .divider span { padding: 0 10px; }
+
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .social-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(255,255,255,0.4);
+            cursor: pointer;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+            color: #00d2ff;
+        }
+
+        #authErrorText {
+            background: rgba(255, 77, 77, 0.2);
+            border: 1px solid rgba(255, 77, 77, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            color: #fff;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="liquid-bg">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="glass-card">
+            
+            <div class="logo-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="45" height="45" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"></ellipse>
+                    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"></ellipse>
+                </svg>
+                <h1>RU UNIVERSE</h1>
+                <p>Dive into the glassy reality.</p>
+            </div>
+            
+            <h2 id="formTitle">Log In</h2>
+
+            <div id="authErrorText">Invalid credentials or user not found.</div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" id="email" required placeholder=" ">
+                    <label for="email">Email</label>
+                    <span class="error-msg" id="emailError">Please enter a valid email</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" required placeholder=" ">
+                    <label for="password">Password</label>
+                    <span class="error-msg" id="passwordError">Password must be at least 6 characters</span>
+                </div>
+
+                <div class="options" id="extraOptions">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-pwd">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">Log In</button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn google" id="googleLoginBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+            </div>
+
+            <div class="signup-link">
+                <span id="toggleText">New to universe?</span>
+                <a href="#" id="toggleAuthMode">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase JS Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+        // ==========================================
+        // APNI ASLI FIREBASE DETAILS YAHAN DAALEIN:
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCGhTXto1VuJLeewvJL3L4AzNKNhNSsW9U",
+            authDomain: "ru-universe-00.firebaseapp.com",
+            projectId: "ru-universe-00",
+            storageBucket: "ru-universe-00.firebasestorage.app",
+            messagingSenderId: "872267478262",
+            appId: "1:872267478262:web:1b9a16800e9b3c188f28d7",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const googleBtn = document.getElementById('googleLoginBtn');
+        const authErrorText = document.getElementById('authErrorText');
+        
+        let isLoginMode = true;
+        const formTitle = document.getElementById('formTitle');
+        const extraOptions = document.getElementById('extraOptions');
+        const toggleAuthMode = document.getElementById('toggleAuthMode');
+        const toggleText = document.getElementById('toggleText');
+
+        toggleAuthMode.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+            authErrorText.style.display = 'none';
+
+            if (isLoginMode) {
+                formTitle.innerText = "Log In";
+                loginBtn.innerText = "Log In";
+                toggleText.innerText = "New to universe?";
+                toggleAuthMode.innerText = "Create Account";
+                extraOptions.style.display = "flex"; 
+            } else {
+                formTitle.innerText = "Create New Account";
+                loginBtn.innerText = "Sign Up";
+                toggleText.innerText = "Already have an account?";
+                toggleAuthMode.innerText = "Log In";
+                extraOptions.style.display = "none"; 
+            }
+        });
+
+        const isValidEmail = (email) => {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        emailInput.addEventListener('input', () => { authErrorText.style.display = 'none'; });
+        passwordInput.addEventListener('input', () => { authErrorText.style.display = 'none'; });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+                alert("⚠️ WARNING: Firebase is not connected!\n\nAapne abhi tak apni Firebase Config keys code me nahi dali hain.");
+                return;
+            }
+
+            if (!isValidEmail(emailInput.value)) {
+                emailInput.parentElement.classList.add('error');
+                isValid = false;
+            }
+            if (passwordInput.value.length < 6) {
+                passwordInput.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                const originalText = loginBtn.innerText;
+                loginBtn.innerText = 'Connecting...';
+                
+                try {
+                    if (isLoginMode) {
+                        const userCredential = await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+                        alert(`Login Successful!\nWelcome back to RU UNIVERSE, ${userCredential.user.email}`);
+                    } else {
+                        const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+                        alert(`Account Created Successfully!\nWelcome to RU UNIVERSE, ${userCredential.user.email}`);
+                    }
+                } catch (error) {
+                    console.error("Auth Error:", error.message);
+                    authErrorText.innerText = "Error: " + error.message;
+                    authErrorText.style.display = 'block';
+                } finally {
+                    loginBtn.innerText = originalText;
+                }
+            }
+        });
+
+        googleBtn.addEventListener('click', async () => {
+            if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+                alert("⚠️ WARNING: Firebase is not connected! Please add your keys first.");
+                return;
+            }
+
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                alert(`Google Login Successful! Welcome ${result.user.displayName} to RU UNIVERSE!`);
+            } catch (error) {
+                console.error("Google Auth Error:", error.message);
+                authErrorText.innerText = "Google Login Failed: " + error.message;
+                authErrorText.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
